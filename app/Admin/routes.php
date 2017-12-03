@@ -12,5 +12,9 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
     $router->resource('users', 'UserController');
+    //产品中心
+    $router->resource('product', 'ProductController');
+    //产品详情
+    $router->resource('product-info', 'ProductInfoController');
 
 });

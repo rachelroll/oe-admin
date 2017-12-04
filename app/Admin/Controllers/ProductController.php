@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 
 use Encore\Admin\Form;
@@ -89,6 +90,7 @@ class ProductController extends Controller
 
             $grid->column('name', '产品名称');
             $grid->column('cat_id', '分类名称')->display(function($text) {
+
                 switch ($text) {
                     case 0:
                         return '无分类';
@@ -152,12 +154,16 @@ class ProductController extends Controller
 
             // 添加text类型的input框
             $form->text('name', '产品名称');
-            $options = [
-                '0'  => '请选择',
-                '1'  => '音响',
-                '2' => '耳机',
-            ];
-            $form->select('cat_id', '产品分类')->options($options);
+
+            $form->select('cat_id', '产品分类')->options(function($id) {
+                $categories = Category::where('enabled',1)->get(['name','id']);
+                $arr = [];
+                $categories->each(function ($item,$key) use (&$arr) {
+                    $arr[$item->id] = $item->name;
+                });
+                return $arr;
+
+            });
 
             $options = [
                 '0'  => '普通产品',
@@ -177,7 +183,7 @@ class ProductController extends Controller
             //$form->text('intro', '产品简介');
             $form->textarea('attr', '产品属性(每行一个属性)');
 
-            $form->ckeditor('intro');
+            $form->text('intro','产品简介(暂时无用不用填)');
 
             $form->number('price', '价格(元)');
 

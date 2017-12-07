@@ -2,11 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-<<<<<<< HEAD
-use App\Models\User;
-=======
-use App\Model\User;
->>>>>>> baf9ededde12af9c113f4187232feb41b0e2efd7
+use App\Models\About;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -15,7 +11,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class UserController extends Controller
+class AboutController extends Controller
 {
     use ModelForm;
 
@@ -75,16 +71,12 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(User::class, function (Grid $grid) {
+        return Admin::grid(About::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-
-            $grid->column('name','用户名称')->sortable();
-            $grid->column('email','E-mail');
-
-            $grid->filter(function ($filter) {
-                $filter->equal('name','名称');
-
+            $grid->column('title', '导航名称');
+            $grid->column('content', '具体内容')->display(function($content){
+                return str_limit($content, 20);
             });
 
             $grid->created_at();
@@ -99,12 +91,13 @@ class UserController extends Controller
      */
     protected function form()
     {
-        return Admin::form(User::class, function (Form $form) {
+        return Admin::form(About::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->text('name', '用户名称');
-            $form->text('email', '邮箱');
-            $form->text('password', 'pass');
+
+            $form->text('title', '导航名称');
+
+            $form->textarea('content', '具体内容');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

@@ -2,7 +2,11 @@
 
 namespace App\Admin\Controllers;
 
+<<<<<<< HEAD
 use App\Models\User;
+=======
+use App\Model\User;
+>>>>>>> baf9ededde12af9c113f4187232feb41b0e2efd7
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;

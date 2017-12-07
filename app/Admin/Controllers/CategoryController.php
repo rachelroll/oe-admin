@@ -100,7 +100,7 @@ class CategoryController extends Controller
 
             $form->display('id', 'ID');
 
-            $form->text('name', '产品名称');
+            $form->text('name', '分类名称');
             $form->text('intro','分类简介');
 
             $options = [

@@ -19,9 +19,12 @@
  */
 
 use App\Admin\Extensions\Form\CKEditor;
+use App\Admin\Extensions\Form\WangEditor;
 use Encore\Admin\Form;
 
 Form::extend('ckeditor', CKEditor::class);
+Form::extend('editor', WangEditor::class);
 
-Encore\Admin\Form::forget(['map', 'editor']);
+
+Encore\Admin\Form::forget(['map','ckeditor']);
 

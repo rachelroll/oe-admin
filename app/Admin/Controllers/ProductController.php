@@ -55,6 +55,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+
         return Admin::content(function (Content $content) {
 
             $content->header('header');
@@ -151,7 +152,7 @@ class ProductController extends Controller
     {
         return Admin::form(Product::class, function ( Form $form) {
             $form->display('id', 'ID');
-
+            $form->editor('intro','产品简介');
             // 添加text类型的input框
             $form->text('name', '产品名称');
 
@@ -180,20 +181,18 @@ class ProductController extends Controller
 
             $form->image('cover','封面图');
             $form->text('intro_title', '一句话简介');
-            //$form->text('intro', '产品简介');
             $form->textarea('attr', '产品属性(每行一个属性)');
 
-            $form->text('intro','产品简介(暂时无用不用填)');
+
 
             $form->number('price', '价格(元)');
 
-            $form->hasMany('productInfo', function (Form\NestedForm $form) {
+            $form->hasMany('product_info', function (Form\NestedForm $form) {
                 $form->image('imgs','产品大图');
                 $form->text('intro','产品描述');
             });
 
             $form->saving(function (Form $form) {
-
             });
 
             $form->display('created_at', 'Created At');

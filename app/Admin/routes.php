@@ -17,5 +17,6 @@ Route::group([
     //产品详情
     $router->resource('product-info', 'ProductInfoController');
     $router->resource('category', 'CategoryController');
+    $router->resource('about', 'AboutController');
 
 });

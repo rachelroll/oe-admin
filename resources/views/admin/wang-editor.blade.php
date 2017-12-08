@@ -7,6 +7,7 @@
         @include('admin::form.error')
 
         <div id="{{$id}}" style="width: 100%; height: 100%;">
+            hahah
             <p>{!! old($column, $value) !!}</p>
         </div>
 

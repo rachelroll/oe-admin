@@ -10,6 +10,8 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AboutController extends Controller
 {
@@ -56,7 +58,6 @@ class AboutController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
-
             $content->header('header');
             $content->description('description');
 
@@ -75,9 +76,6 @@ class AboutController extends Controller
 
             $grid->id('ID')->sortable();
             $grid->column('title', '导航名称');
-            $grid->column('content', '具体内容')->display(function($content){
-                return str_limit($content, 20);
-            });
 
             $grid->created_at();
             $grid->updated_at();
@@ -97,10 +95,20 @@ class AboutController extends Controller
 
             $form->text('title', '导航名称');
 
-            $form->textarea('content', '具体内容');
+            $form->editor('content', '具体内容');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });
+    }
+
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('wang-editor-file') && $request->file('wang-editor-file')->isValid() ) {
+            $storage = Storage::disk('local');
+            $url = $storage->url($storage->put('public',$request->file('wang-editor-file')));
+            return response()->json(['url'=>$url]);
+        }
+
     }
 }

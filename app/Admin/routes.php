@@ -20,3 +20,5 @@ Route::group([
     $router->resource('about', 'AboutController');
 
 });
+Route::post('upload', 'App\Admin\Controllers\AboutController@upload');
+Route::get('qiniu-token', 'App\Admin\Controllers\QiniuController@token');

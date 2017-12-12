@@ -78,6 +78,10 @@ editor.customConfig.qiniu = true
 editor.customConfig.linkImgCallback = function (url) {
     console.log(url)
 }
+editor.customConfig.onchange = function (html) {
+    $('input[name=$name]').val(html);
+}
+
 
 editor.create()
 

@@ -128,9 +128,9 @@ class ProductController extends Controller
             $grid->column('intro_title','一句话简介')->display(function($intro_title) {
                 return str_limit($intro_title,20);
             });
-            $grid->column('intro','产品简介')->display(function($intro) {
-                return str_limit($intro,20);
-            });
+            //$grid->column('intro','产品简介')->display(function($intro) {
+            //    return str_limit($intro,20);
+            //});
             $grid->column('price','价格(元)')->sortable();
 
 
@@ -162,14 +162,16 @@ class ProductController extends Controller
                     $arr[$item->id] = $item->name;
                 });
                 return $arr;
-
-            });
+            })->rules('required', [
+                'required' => '分类必选',
+            ]);
 
             $options = [
                 '0'  => '普通产品',
                 '1'  => '主打产品',
                 '2' => '特色产品',
             ];
+
             $form->select('type', '产品在首页位置')->options($options);
 
             $options = [
@@ -179,20 +181,23 @@ class ProductController extends Controller
             $form->switch('enabled', '状态(禁用后产品不显示)')->states($options);
 
             $form->image('cover','封面图');
-            $form->text('intro_title', '封面图简介');
-            $form->editor('intro','产品简介');
-            $form->textarea('attr', '产品属性(每行一个属性)');
+            $form->text('intro_title', '封面图简介(必填)')->rules('required', [
+                'required' => '封面图简介必填',
+            ]);
+            $form->editor('intro','产品详情');
+            //$form->textarea('attr', '产品属性(每行一个属性)');
 
 
 
             $form->number('price', '价格(元)');
 
-            $form->hasMany('product_info', function (Form\NestedForm $form) {
-                $form->image('imgs','产品大图');
-                $form->text('intro','每一张图片的产品描述');
-            });
+            //$form->hasMany('product_info', function (Form\NestedForm $form) {
+            //    $form->image('imgs','产品大图');
+            //    $form->text('intro','每一张图片的产品描述');
+            //});
 
             $form->saving(function (Form $form) {
+
             });
 
             $form->display('created_at', 'Created At');

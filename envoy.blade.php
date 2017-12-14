@@ -3,10 +3,10 @@
 @setup
     $env = env('APP_ENV');
     $repo = 'https://github.com/rachelroll/oe-admin.git';
-    $release_dir = '/var/www/oe360-admin/release';
-    $app_dir = '/var/www/oe360-admin';
-    $shared_dir = '/var/www/oe360-admin/shared';
-    $current_dir = '/var/www/oe360-admin/current';
+    $release_dir = '/var/www/oe-admin/release';
+    $app_dir = '/var/www/oe-admin';
+    $shared_dir = '/var/www/oe-admin/shared';
+    $current_dir = '/var/www/oe-admin/current';
     $release = 'release_' . date('YmdHis');
     $now = new DateTime();
     $environment = isset($env) ? $env : "test";
@@ -29,7 +29,6 @@
     if [ ! -d {{ $release_dir }} ]; then
     mkdir -p {{ $release_dir }}
     mkdir -p {{ $shared_dir }}
-    mkdir -p {{ $current_dir }}
     cd {{ $release_dir }}
     pwd
     git clone {{ $repo }} --branch={{ $branch }} --depth=1 -q {{ $release }}
@@ -40,7 +39,10 @@
     chmod -R ug+rwx {{ $shared_dir }}/storage
     echo "Storage directory set up"
     cp {{ $release }}/.env.example {{ $shared_dir }}/.env
-    ln -s {{ $shared_dir }}/.env {{ $current_dir }}/.env
+    cd {{ $release_dir }}/{{ $release }}
+
+    php artisan key:generate
+
     echo "Environment file set up"
     rm -rf {{ $release }}
     echo "Deployment path initialised. Run 'envoy run deploy' now."
@@ -114,8 +116,10 @@ echo 'link'
 @endtask
 
 @task('deployment_finish')
-echo ln -nfs {{$release_dir}}/{{ $release }} {{ $current_dir }}
-ln -nfs {{$release_dir}}/{{ $release }} {{ $current_dir }}
+echo ln -s {{$release_dir}}/{{ $release }} {{ $current_dir }}
+rm -rf {{ $current_dir }}
+ln -s {{$release_dir}}/{{ $release }} {{ $current_dir }}
+chmod -R ug+rwx {{ $shared_dir }}/storage
 echo "Deployment ({{ $release }}) finished"
 @endtask
 

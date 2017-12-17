@@ -80,6 +80,10 @@ return [
             'notify_url'=> '',  //持久化处理回调地址
             'url'       => 'http://of8kfibjo.bkt.clouddn.com/',  // 填写文件访问根url
         ],
+        'public_uploads' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/test/images',
+        ],
 
 
     ],

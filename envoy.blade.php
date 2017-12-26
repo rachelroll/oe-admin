@@ -39,9 +39,7 @@
     chmod -R ug+rwx {{ $shared_dir }}/storage
     echo "Storage directory set up"
     cp {{ $release }}/.env.example {{ $shared_dir }}/.env
-    cd {{ $release_dir }}/{{ $release }}
-
-    php artisan key:generate
+    php {{$release_dir}}/{{$release}}/artisan key:generate
 
     echo "Environment file set up"
     rm -rf {{ $release }}
@@ -71,7 +69,7 @@
 @task('git_pull',['on'=>'web','confirm' => true])
 
     echo 'Your branch is ' {{ $branch }}
-    cd {{ $app_dir }}/current
+    cd {{ $current_dir }}
     pwd
     git pull origin {{ $branch }}
     git submodule foreach git pull origin {{ $branch }}

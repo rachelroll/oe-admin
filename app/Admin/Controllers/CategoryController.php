@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Category;
 
+use App\Models\User;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -75,14 +76,17 @@ class CategoryController extends Controller
 
             $grid->id('ID')->sortable();
 
-            $grid->column('name', '分类名称');
-            $grid->column('intro', '分类简介');
+            $grid->column('name', '分类名称')->editable();
+            $grid->column('intro', '分类简介')->editable();
+            $grid->column('sort', '排序')->editable()->sortable();
+
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
                 'off' => ['value' => 0, 'text' => '禁用', 'color' => 'default'],
             ];
             $grid->column('enabled','状态')->switch($options);
 
+            $grid->model()->orderBy('sort', 'ASC');
 
             $grid->created_at();
             $grid->updated_at();
@@ -102,6 +106,7 @@ class CategoryController extends Controller
 
             $form->text('name', '分类名称');
             $form->text('intro','分类简介');
+            $form->text('sort','排序');
 
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],

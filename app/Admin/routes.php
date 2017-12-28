@@ -18,6 +18,7 @@ Route::group([
     $router->resource('product-info', 'ProductInfoController');
     $router->resource('category', 'CategoryController');
     $router->resource('about', 'AboutController');
+    $router->resource('carousel', 'CarouselController');
 
 });
 Route::post('upload', 'App\Admin\Controllers\AboutController@upload');

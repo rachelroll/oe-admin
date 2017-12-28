@@ -90,6 +90,22 @@ class ProductController extends Controller
             $grid->id('ID')->sortable();
 
             $grid->column('name', '产品名称');
+            $grid->column('model', '型号');
+            $grid->column('sort', '排序')->sortable();
+            $grid->column('position', '位置')->display(function($position) {
+
+                switch ($position) {
+                    case 0:
+                        return '随意';
+                    case 1:
+                        return '位置1';
+                    case 2:
+                        return '位置2';
+                    default:
+                        return '位置3';
+                }
+            });
+
             $grid->column('cat_id', '分类名称')->display(function($text) {
 
                 switch ($text) {
@@ -104,16 +120,22 @@ class ProductController extends Controller
                 }
             })->sortable();
 
-            $grid->column('type', '首页位置')->display(function($text) {
+            $grid->column('rating', '评级')->display(function($text) {
                 switch ($text) {
                     case 0:
-                        return '普通产品';
+                        return '暂无评级';
                     case 1:
-                        return '主打产品';
+                        return '★';
                     case 2:
-                        return '特色产品';
+                        return '★★';
+                    case 3:
+                        return '★★★';
+                    case 4:
+                        return '★★★★';
+                    case 5:
+                        return '★★★★★';
                     default:
-                        return '普通产品';
+                        return '暂无评级';
                 }
             })->sortable();
 
@@ -124,19 +146,15 @@ class ProductController extends Controller
             $grid->column('enabled','状态')->switch($options);
 
             $grid->column('cover','封面')->image('',60,60);
-            
-            $grid->column('intro_title','一句话简介')->display(function($intro_title) {
-                return str_limit($intro_title,20);
-            });
-            //$grid->column('intro','产品简介')->display(function($intro) {
-            //    return str_limit($intro,20);
+            $grid->column('banner','产品Banner图')->image('',60,60);
+            $grid->column('video_img','视频封面图')->image('',60,60);
+
+            //$grid->column('intro_title','一句话简介')->display(function($intro_title) {
+            //    return str_limit($intro_title,20);
             //});
             $grid->column('price','价格(元)')->sortable();
 
 
-            //$grid->column('name', '产品名称');
-            //$grid->column('name', '产品名称');
-            //$grid->column('name', '产品名称');
 
             $grid->created_at();
             $grid->updated_at();
@@ -154,6 +172,17 @@ class ProductController extends Controller
             $form->display('id', 'ID');
             // 添加text类型的input框
             $form->text('name', '产品名称');
+            $form->text('model', '型号');
+            $form->text('sort', '排序');
+            $options = [
+                '0'  => '',
+                '1'  => '★',
+                '2' => '★★',
+                '3' => '★★★',
+                '4' => '★★★★',
+                '5' => '★★★★★',
+            ];
+            $form->select('rating', '评级')->options($options);
 
             $form->select('cat_id', '产品分类')->options(function($id) {
                 $categories = Category::where('enabled',1)->get(['name','id']);
@@ -167,12 +196,12 @@ class ProductController extends Controller
             ]);
 
             $options = [
-                '0'  => '普通产品',
-                '1'  => '主打产品',
-                '2' => '特色产品',
+                '0'  => '随意',
+                '1'  => '位置1',
+                '2'  => '位置2',
+                '3' => '位置3',
             ];
-
-            $form->select('type', '产品在首页位置')->options($options);
+            $form->select('position', '产品在首页位置')->options($options);
 
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
@@ -181,6 +210,13 @@ class ProductController extends Controller
             $form->switch('enabled', '状态(禁用后产品不显示)')->states($options);
 
             $form->image('cover','封面图');
+            $form->image('banner','Banner图');
+
+            $form->image('video_img','视频封面图');
+            $form->file('video_mp4','视频mp4');
+            $form->file('video_ogv','视频ogv');
+            $form->file('video_webm','视频webm');
+
             $form->text('intro_title', '封面图简介(必填)')->rules('required', [
                 'required' => '封面图简介必填',
             ]);

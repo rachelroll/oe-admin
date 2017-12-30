@@ -96,13 +96,13 @@ class ProductController extends Controller
 
                 switch ($position) {
                     case 0:
-                        return '随意';
+                        return '默认';
                     case 1:
                         return '位置1';
                     case 2:
                         return '位置2';
                     default:
-                        return '位置3';
+                        return '默认';
                 }
             });
 
@@ -199,7 +199,6 @@ class ProductController extends Controller
                 '0'  => '随意',
                 '1'  => '位置1',
                 '2'  => '位置2',
-                '3' => '位置3',
             ];
             $form->select('position', '产品在首页位置')->options($options);
 

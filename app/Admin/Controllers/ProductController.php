@@ -79,19 +79,19 @@ class ProductController extends Controller
 
                 // Add a column filter
                 $filter->like('name', '名称');
-                $filter->equal('type', '分类')->select([
-                    0 => '普通产品',
-                    1 => '主打产品',
-                    2 => '特色产品'
-                ]);
+                //$filter->equal('type', '分类')->select([
+                //    0 => '普通产品',
+                //    1 => '主打产品',
+                //    2 => '特色产品'
+                //]);
             });
 
 
             $grid->id('ID')->sortable();
 
-            $grid->column('name', '产品名称');
-            $grid->column('model', '型号');
-            $grid->column('sort', '排序')->sortable();
+            $grid->column('name', '产品名称')->editable();
+            $grid->column('model', '型号')->editable();
+            $grid->column('sort', '排序')->sortable()->editable();
             $grid->column('position', '位置')->display(function($position) {
 
                 switch ($position) {
@@ -104,7 +104,7 @@ class ProductController extends Controller
                     default:
                         return '默认';
                 }
-            });
+            })->sortable();
 
             $grid->column('cat_id', '分类名称')->display(function($text) {
 
@@ -143,7 +143,7 @@ class ProductController extends Controller
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
                 'off' => ['value' => 0, 'text' => '禁用', 'color' => 'default'],
             ];
-            $grid->column('enabled','状态')->switch($options);
+            $grid->column('enabled','状态')->switch($options)->sortable();
 
             $grid->column('cover','封面')->image('',60,60);
             $grid->column('banner','产品Banner图')->image('',60,60);

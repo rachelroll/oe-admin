@@ -92,19 +92,26 @@ class ProductController extends Controller
             $grid->column('name', '产品名称')->editable();
             $grid->column('model', '型号')->editable();
             $grid->column('sort', '排序')->sortable()->editable();
-            $grid->column('position', '位置')->display(function($position) {
 
-                switch ($position) {
-                    case 0:
-                        return '默认';
-                    case 1:
-                        return '位置1';
-                    case 2:
-                        return '位置2';
-                    default:
-                        return '默认';
-                }
-            })->sortable();
+            //$grid->column('position', '位置')->display(function($position) {
+            //
+            //    switch ($position) {
+            //        case 0:
+            //            return '默认';
+            //        case 1:
+            //            return '位置1';
+            //        case 2:
+            //            return '位置2';
+            //        default:
+            //            return '默认';
+            //    }
+            //})->sortable();
+
+            $options = [
+                'on'  => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+            ];
+            $grid->column('is_new','是否新品速递')->switch($options)->sortable();
 
             $grid->column('cat_id', '分类名称')->display(function($text) {
 
@@ -173,6 +180,11 @@ class ProductController extends Controller
             // 添加text类型的input框
             $form->text('name', '产品名称');
             $form->text('model', '型号');
+            $options = [
+                'on'  => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+            ];
+            $form->switch('is_new', '是否新品速递')->states($options);
             $form->text('sort', '排序');
             $options = [
                 '0'  => '',

@@ -105,7 +105,7 @@ class NewPositionController extends Controller
             ];
             $form->switch('enabled', '状态')->states($options);
 
-            $form->text('layout', '新品速递布局: 例如 要显示3行,第一行2个图片,第二个3个图片,第三行4个图片,那么 输入"2,3,4"即可, 引号不输入,如果创建多个新品速递位置,只有第一个有用');
+            $form->text('layout', '新品速递布局: 例如 要显示3行,第一行2个图片,第二个3个图片,第三行4个图片,那么 输入"2|3|4"即可, 引号不输入,如果创建多个新品速递位置,只有第一个有用');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

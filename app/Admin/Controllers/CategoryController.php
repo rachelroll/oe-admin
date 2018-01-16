@@ -44,7 +44,6 @@ class CategoryController extends Controller
 
             $content->header('header');
             $content->description('description');
-
             $content->body($this->form()->edit($id));
         });
     }
@@ -110,7 +109,7 @@ class CategoryController extends Controller
             $form->text('intro','分类简介');
             $form->text('sort','排序');
 
-            $form->text('layout', '新品速递布局: 例如 要显示3行,第一行2个图片,第二个3个图片,第三行4个图片,那么 输入"2,3,4"即可, 引号不输入,如果创建多个新品速递位置,只有第一个有用');
+            $form->text('layout', '布局: 例如 要显示3行,第一行2个图片,第二个3个图片,第三行4个图片,那么 输入"2|3|4"即可, 引号不输入');
 
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
@@ -118,6 +117,11 @@ class CategoryController extends Controller
             ];
             $form->switch('enabled', '状态(启用禁用)')->states($options);
 
+            $form->saving(function (Form $form) {
+                if (!$form->layout) {
+                    $form->layout = '';
+                }
+            });
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

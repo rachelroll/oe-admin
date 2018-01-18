@@ -103,20 +103,8 @@ class ProductController extends Controller
                 'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
             ];
             $grid->column('is_new','是否新品速递')->switch($options)->sortable();
-
-            $grid->column('cat_id', '分类名称')->display(function($text) {
-
-                switch ($text) {
-                    case 0:
-                        return '无分类';
-                    case 1:
-                        return '音响';
-                    case 2:
-                        return '耳机';
-                    default:
-                        return '无分类';
-                }
-            })->sortable();
+            
+            $grid->column('category.name', '分类名称')->sortable();
 
             $grid->column('rating', '评级')->display(function($text) {
                 switch ($text) {

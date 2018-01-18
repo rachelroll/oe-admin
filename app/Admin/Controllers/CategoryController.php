@@ -75,11 +75,13 @@ class CategoryController extends Controller
 
             $grid->id('ID')->sortable();
 
+
+
             $grid->column('name', '分类名称')->editable();
             $grid->column('intro', '分类简介')->editable();
             $grid->column('sort', '排序')->editable()->sortable();
 
-            $grid->column('layout', '新品速递布局')->editable();
+            $grid->column('layout', '布局')->editable();
 
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],

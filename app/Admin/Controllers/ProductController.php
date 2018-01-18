@@ -79,12 +79,17 @@ class ProductController extends Controller
 
                 // Add a column filter
                 $filter->like('name', '名称');
-                //$filter->equal('type', '分类')->select([
-                //    0 => '普通产品',
-                //    1 => '主打产品',
-                //    2 => '特色产品'
-                //]);
+                $filter->disableIdFilter();
+                $catOptions = Category::where('enabled',1)->pluck('name','id');
+                $filter->equal('cat_id','产品分类')->select($catOptions);
+                $isNewOptions = [
+                    0=>'否',
+                    1=>'是',
+                ];
+                $filter->equal('is_new','是否新品')->select($isNewOptions);
             });
+
+
 
 
             $grid->id('ID')->sortable();
@@ -92,20 +97,6 @@ class ProductController extends Controller
             $grid->column('name', '产品名称')->editable();
             $grid->column('model', '型号')->editable();
             $grid->column('sort', '排序')->sortable()->editable();
-
-            //$grid->column('position', '位置')->display(function($position) {
-            //
-            //    switch ($position) {
-            //        case 0:
-            //            return '默认';
-            //        case 1:
-            //            return '位置1';
-            //        case 2:
-            //            return '位置2';
-            //        default:
-            //            return '默认';
-            //    }
-            //})->sortable();
 
             $options = [
                 'on'  => ['value' => 1, 'text' => '是', 'color' => 'primary'],
@@ -176,6 +167,8 @@ class ProductController extends Controller
     protected function form()
     {
         return Admin::form(Product::class, function ( Form $form) {
+
+
             $form->display('id', 'ID');
             // 添加text类型的input框
             $form->text('name', '产品名称');

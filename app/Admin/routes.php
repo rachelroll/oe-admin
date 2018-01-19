@@ -19,7 +19,13 @@ Route::group([
     $router->resource('product', 'ProductController')->name('index','admin.product.index');
     //产品详情
     $router->resource('product-info', 'ProductInfoController');
+
     $router->resource('category', 'CategoryController');
+    //页脚分类
+    $router->resource('foot-category', 'FootCategoryController');
+    //页脚
+    $router->resource('foot', 'FootController');
+
     $router->resource('about', 'AboutController');
     $router->resource('carousel', 'CarouselController');
 

@@ -2,9 +2,9 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Category;
+use App\Models\Foot;
 
-use App\Models\User;
+use App\Models\FootCategory;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -12,7 +12,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class CategoryController extends Controller
+class FootController extends Controller
 {
     use ModelForm;
 
@@ -25,8 +25,8 @@ class CategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header('页脚分类');
+            $content->description('注意,这里页脚分类最多只能增加三个分类');
 
             $content->body($this->grid());
         });
@@ -44,6 +44,7 @@ class CategoryController extends Controller
 
             $content->header('header');
             $content->description('description');
+
             $content->body($this->form()->edit($id));
         });
     }
@@ -71,25 +72,26 @@ class CategoryController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Category::class, function (Grid $grid) {
+        return Admin::grid(Foot::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
+            $grid->filter(function($filter){
+                // Remove the default id filter
 
-
-
-            $grid->column('name', '分类名称')->editable();
-            $grid->column('intro', '分类简介')->editable();
-            $grid->column('sort', '排序')->editable()->sortable();
-
-            $grid->column('layout', '布局')->editable();
-
+                // Add a column filter
+                $filter->like('name', '名称');
+                $filter->disableIdFilter();
+                $catOptions = Foot::where('enabled',1)->pluck('name','id');
+                $filter->equal('cat_id','Foot分类')->select($catOptions);
+            });
+            $grid->column('name', 'Foot名称')->editable();
+            $grid->column('sort', '排序')->sortable()->editable();
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
                 'off' => ['value' => 0, 'text' => '禁用', 'color' => 'default'],
             ];
-            $grid->column('enabled','状态')->switch($options);
+            $grid->column('enabled','状态')->switch($options)->sortable();
 
-            $grid->model()->orderBy('sort', 'ASC');
 
             $grid->created_at();
             $grid->updated_at();
@@ -103,26 +105,35 @@ class CategoryController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Category::class, function (Form $form) {
+        return Admin::form(Foot::class, function (Form $form) {
 
             $form->display('id', 'ID');
 
-            $form->text('name', '分类名称');
-            $form->editor('intro','分类简介');
-            $form->text('sort','排序');
-
-            $form->text('layout', '布局: 例如 要显示3行,第一行2个图片,第二个3个图片,第三行4个图片,那么 输入"2|3|4"即可, 引号不输入');
+            $form->text('name', 'Foot名称');
+            $form->text('sort', '排序');
+            $form->select('cat_id', 'Foot分类')->options(function($id) {
+                $categories = FootCategory::where('enabled',1)->get(['name','id']);
+                $arr = [];
+                $categories->each(function ($item,$key) use (&$arr) {
+                    $arr[$item->id] = $item->name;
+                });
+                return $arr;
+            })->rules('required', [
+                'required' => '分类必选',
+            ]);
 
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
                 'off' => ['value' => 0, 'text' => '禁用', 'color' => 'default'],
             ];
-            $form->switch('enabled', '状态(启用禁用)')->states($options);
+
+            $form->switch('enabled', '状态(禁用后产品不显示)')->states($options);
+            $form->editor('info','详情');
 
             $form->saving(function (Form $form) {
-                if (!$form->layout) {
-                    $form->layout = '';
-                }
+
+               dd($form->model());
+
             });
 
             $form->display('created_at', 'Created At');

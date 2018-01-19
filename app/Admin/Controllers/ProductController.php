@@ -103,7 +103,7 @@ class ProductController extends Controller
                 'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
             ];
             $grid->column('is_new','是否新品速递')->switch($options)->sortable();
-            
+
             $grid->column('category.name', '分类名称')->sortable();
 
             $grid->column('rating', '评级')->display(function($text) {
@@ -158,7 +158,7 @@ class ProductController extends Controller
 
 
             $form->display('id', 'ID');
-            // 添加text类型的input框
+
             $form->text('name', '产品名称');
             $form->text('model', '型号');
             $options = [

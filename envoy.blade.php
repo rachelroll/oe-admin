@@ -74,6 +74,8 @@
     git pull origin {{ $branch }}
     git submodule foreach git pull origin {{ $branch }}
     php artisan migrate
+    php artisan view:clear
+    php artisan config:clear
 
 @endtask
 

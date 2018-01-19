@@ -130,11 +130,6 @@ class FootController extends Controller
             $form->switch('enabled', '状态(禁用后产品不显示)')->states($options);
             $form->editor('info','详情');
 
-            $form->saving(function (Form $form) {
-
-               dd($form->model());
-
-            });
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

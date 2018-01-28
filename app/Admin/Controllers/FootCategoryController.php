@@ -59,8 +59,8 @@ class FootCategoryController extends Controller
 
             $content->header('header');
             $content->description('description');
-            if (count(FootCategory::get()) >= 3) {
-                $body = '<h1>最多只能添加 三个分类</h1>';
+            if (count(FootCategory::get()) >= 4) {
+                $body = '<h1>最多只能添加 4个分类</h1>';
             } else {
                 $body = $this->form();
             }

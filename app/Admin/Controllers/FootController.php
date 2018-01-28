@@ -26,7 +26,7 @@ class FootController extends Controller
         return Admin::content(function (Content $content) {
 
             $content->header('页脚分类');
-            $content->description('注意,这里页脚分类最多只能增加三个分类');
+            $content->description('注意,这里页脚分类最多只能增加4个分类');
 
             $content->body($this->grid());
         });
@@ -81,7 +81,7 @@ class FootController extends Controller
                 // Add a column filter
                 $filter->like('name', '名称');
                 $filter->disableIdFilter();
-                $catOptions = Foot::where('enabled',1)->pluck('name','id');
+                $catOptions = FootCategory::where('enabled',1)->pluck('name','id');
                 $filter->equal('cat_id','Foot分类')->select($catOptions);
             });
             $grid->column('name', 'Foot名称')->editable();
@@ -108,9 +108,6 @@ class FootController extends Controller
         return Admin::form(Foot::class, function (Form $form) {
 
             $form->display('id', 'ID');
-
-            $form->text('name', 'Foot名称');
-            $form->text('sort', '排序');
             $form->select('cat_id', 'Foot分类')->options(function($id) {
                 $categories = FootCategory::where('enabled',1)->get(['name','id']);
                 $arr = [];
@@ -121,6 +118,9 @@ class FootController extends Controller
             })->rules('required', [
                 'required' => '分类必选',
             ]);
+            $form->text('name', 'Foot名称');
+            $form->text('sort', '排序');
+
 
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],

@@ -31,6 +31,7 @@ Route::group([
 
     //新品推荐
     $router->resource('new-position', 'NewPositionController');
+    $router->resource('file-manage', 'FileManageController');
 
 });
 Route::post('upload', 'App\Admin\Controllers\AboutController@upload');

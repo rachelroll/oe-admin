@@ -153,4 +153,7 @@ return [
     'extensions' => [
 
     ],
+    'qiniu' => [
+        'qiniu_host' => env('QINIU_HOST','ozgti7vh2.bkt.clouddn.com/')
+    ]
 ];

@@ -84,7 +84,24 @@ class FootController extends Controller
                 $catOptions = FootCategory::where('enabled',1)->pluck('name','id');
                 $filter->equal('cat_id','Foot分类')->select($catOptions);
             });
+
+            $options = [
+                'on'  => ['value' => 1, 'text' => '外链', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '内部', 'color' => 'default'],
+            ];
+            $grid->column('type','文章类型')->switch($options)->sortable();
+
+            $grid->column('url', '外链地址')->editable();
+
             $grid->column('name', 'Foot名称')->editable();
+            $grid->column('cat_id', 'Foot类型')->display(function($cat_id) {
+                $categories = FootCategory::find($cat_id);
+                if ($categories) {
+                    return $categories->name;
+                } else {
+                    return '默认分类';
+                }
+            })->sortable();
             $grid->column('sort', '排序')->sortable()->editable();
             $options = [
                 'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
@@ -118,6 +135,15 @@ class FootController extends Controller
             })->rules('required', [
                 'required' => '分类必选',
             ]);
+            $options = [
+                'on'  => ['value' => 1, 'text' => '外链', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '内部', 'color' => 'default'],
+            ];
+
+            $form->switch('type', '类型')->states($options);
+
+            $form->text('url', 'url 地址');
+
             $form->text('name', 'Foot名称');
             $form->text('sort', '排序');
 
@@ -129,7 +155,11 @@ class FootController extends Controller
 
             $form->switch('enabled', '状态(禁用后产品不显示)')->states($options);
             $form->editor('info','详情');
-
+            $form->saving(function (Form $form) {
+                if (!$form->url) {
+                    $form->url = '';
+                }
+            });
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

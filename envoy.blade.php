@@ -77,6 +77,9 @@
     php artisan view:clear
     php artisan config:clear
 
+    chmod -R ug+rwx {{ $shared_dir }}/storage
+echo "submodule git_pull finished"
+
 @endtask
 
 

@@ -25,8 +25,8 @@ class FootController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('页脚分类');
-            $content->description('注意,这里页脚分类最多只能增加4个分类');
+            $content->header('页脚内容');
+            $content->description('这里就是页脚的内容');
 
             $content->body($this->grid());
         });

@@ -33,6 +33,12 @@ Route::group([
     $router->resource('new-position', 'NewPositionController');
     $router->resource('file-manage', 'FileManageController');
 
+    //留言管理
+    $router->resource('message', 'MessageController');
+
+    // instruction management
+    $router->resource('instruction', 'InstructionController');
+
 });
 Route::post('upload', 'App\Admin\Controllers\AboutController@upload');
 Route::get('qiniu-token', 'App\Admin\Controllers\QiniuController@token');

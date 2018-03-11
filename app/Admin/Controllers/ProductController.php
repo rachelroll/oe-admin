@@ -11,6 +11,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -167,6 +168,7 @@ class ProductController extends Controller
             ];
             $form->switch('is_new', '是否新品速递')->states($options);
             $form->text('sort', '排序');
+            $form->text('buy_url', '购买连接');
             $options = [
                 '0'  => '',
                 '1'  => '★',
@@ -201,8 +203,8 @@ class ProductController extends Controller
             ];
             $form->switch('enabled', '状态(禁用后产品不显示)')->states($options);
 
-            $form->image('cover','封面图');
-            $form->image('banner','Banner图');
+            $form->image('cover','封面图')->removable();
+            $form->image('banner','Banner图')->removable();
 
             $form->image('video_img','视频封面图');
             $form->file('video_mp4','视频mp4');
@@ -227,6 +229,7 @@ class ProductController extends Controller
             $form->saving(function (Form $form) {
 
             });
+
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

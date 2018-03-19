@@ -106,7 +106,7 @@ class FileManageController extends Controller
 
             $form->display('id', 'ID');
             $form->text('name', '文件名称');
-            $form->file('url','文件');
+            $form->file('url','文件')->removable();
             $form->display('url','文件地址')->with(function($url){
                 if ($url) {
                     return  'http://' . config('admin.qiniu.qiniu_host') . $url;

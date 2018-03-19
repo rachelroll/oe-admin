@@ -227,7 +227,8 @@ class ProductController extends Controller
             //});
 
             $form->saving(function (Form $form) {
-
+                $form->buy_url = $form->buy_url?:'';
+                $form->sort = $form->sort?: 0;
             });
 
 

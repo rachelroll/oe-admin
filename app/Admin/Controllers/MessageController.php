@@ -80,8 +80,9 @@ class MessageController extends Controller
             $grid->name('姓名');
             $grid->contact('联系方式');
             $grid->message('留言');
+            $grid->column('model','关联型号');
 
-            $grid->created_at()->sortable();
+            $grid->created_at('留言时间')->sortable();
 
         });
     }
@@ -100,9 +101,10 @@ class MessageController extends Controller
 
             $form->display('name', '姓名');
             $form->display('contact', '联系方式');
+            $form->display('model', '关联型号');
             $form->display('message', '留言');
 
-            $form->display('created_at', 'Created At');
+            $form->display('created_at', '留言时间');
         });
     }
 }

@@ -168,7 +168,8 @@ class ProductController extends Controller
             ];
             $form->switch('is_new', '是否新品速递')->states($options);
             $form->text('sort', '排序');
-            $form->text('buy_url', '购买连接');
+            $form->text('buy_url', '购买链接');
+            $form->text('tm_url', '天猫链接');
             $options = [
                 '0'  => '',
                 '1'  => '★',

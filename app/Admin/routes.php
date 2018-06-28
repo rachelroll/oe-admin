@@ -39,6 +39,10 @@ Route::group([
     // instruction management
     $router->resource('instruction', 'InstructionController');
 
+    // 邮件管理
+    $router->resource('emails', 'EmailController');
+
 });
+
 Route::post('upload', 'App\Admin\Controllers\AboutController@upload');
 Route::get('qiniu-token', 'App\Admin\Controllers\QiniuController@token');

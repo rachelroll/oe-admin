@@ -15,6 +15,7 @@ use Encore\Admin\Controllers\ModelForm;
 class CategoryController extends Controller
 {
     use ModelForm;
+    private $header = '分类';
 
     /**
      * Index interface.
@@ -25,7 +26,7 @@ class CategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('header');
+            $content->header($this->header);
             $content->description('description');
 
             $content->body($this->grid());
@@ -42,7 +43,7 @@ class CategoryController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('header');
+            $content->header($this->header);
             $content->description('description');
             $content->body($this->form()->edit($id));
         });
@@ -57,7 +58,7 @@ class CategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('header');
+            $content->header($this->header);
             $content->description('description');
 
             $content->body($this->form());
@@ -78,7 +79,10 @@ class CategoryController extends Controller
 
 
             $grid->column('name', '分类名称')->editable();
-            $grid->column('intro', '分类简介')->editable();
+            $grid->column('name_en', 'english name')->editable();
+
+            //$grid->column('intro', '分类简介')->editable();
+            //$grid->column('intro_en', 'english intro')->editable();
             $grid->column('sort', '排序')->editable()->sortable();
 
             $grid->column('layout', '布局')->editable();
@@ -108,7 +112,9 @@ class CategoryController extends Controller
             $form->display('id', 'ID');
 
             $form->text('name', '分类名称');
+            $form->text('name_en', 'english name');
             $form->editor('intro','分类简介');
+            $form->editor('intro_en','english introduce');
             $form->text('sort','排序');
 
             $form->text('layout', '布局: 例如 要显示3行,第一行2个图片,第二个3个图片,第三行4个图片,那么 输入"2|3|4"即可, 引号不输入');

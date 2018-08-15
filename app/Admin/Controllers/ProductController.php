@@ -216,6 +216,7 @@ class ProductController extends Controller
                 'required' => '封面图简介必填',
             ]);
             $form->editor('intro','产品详情');
+            $form->editor('intro_en','Product Detail');
             //$form->textarea('attr', '产品属性(每行一个属性)');
 
 
@@ -229,6 +230,7 @@ class ProductController extends Controller
 
             $form->saving(function (Form $form) {
                 $form->buy_url = $form->buy_url?:'';
+                $form->tm_url = $form->tm_url?:'';
                 $form->sort = $form->sort?: 0;
             });
 

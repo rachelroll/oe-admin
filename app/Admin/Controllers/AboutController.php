@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 class AboutController extends Controller
 {
     use ModelForm;
+    private $header = '关于';
 
     /**
      * Index interface.
@@ -26,7 +27,7 @@ class AboutController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('header');
+            $content->header($this->header);
             $content->description('description');
 
             $content->body($this->grid());
@@ -43,7 +44,7 @@ class AboutController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('header');
+            $content->header($this->header);
             $content->description('description');
 
             $content->body($this->form()->edit($id));
@@ -58,7 +59,7 @@ class AboutController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
-            $content->header('header');
+            $content->header($this->header);
             $content->description('description');
 
             $content->body($this->form());
@@ -76,6 +77,7 @@ class AboutController extends Controller
 
             $grid->id('ID')->sortable();
             $grid->column('title', '导航名称');
+            $grid->column('title_en', 'Name_en');
 
             $grid->created_at();
             $grid->updated_at();
@@ -94,8 +96,10 @@ class AboutController extends Controller
             $form->display('id', 'ID');
 
             $form->text('title', '导航名称');
+            $form->text('title_en', 'English Name');
 
             $form->editor('content', '具体内容');
+            $form->editor('content_en', 'Content');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
